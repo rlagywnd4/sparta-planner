@@ -7,8 +7,6 @@ import org.example.planner.entity.Planner;
 import org.example.planner.repository.PlannerRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-
 @Service
 @RequiredArgsConstructor
 public class PlannerService {

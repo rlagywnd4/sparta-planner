@@ -3,7 +3,6 @@ package org.example.planner.controller;
 import lombok.RequiredArgsConstructor;
 import org.example.planner.dto.PlannerRequestDTO;
 import org.example.planner.dto.PlannerResponseDTO;
-import org.example.planner.entity.Planner;
 import org.example.planner.service.PlannerService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
