@@ -31,7 +31,7 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
     // MySQL
-    implementation 'mysql:mysql-connector-java:8.0.28'
+    implementation 'mysql:mysql-connector-java:8.0.34'
     // JDBC Template
     implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
 }
