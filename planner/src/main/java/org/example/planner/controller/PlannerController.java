@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/planner")
+@RequestMapping("/planners")
 @RequiredArgsConstructor
 public class PlannerController {
 
@@ -28,7 +28,6 @@ public class PlannerController {
     public ResponseEntity<PlannerResponseDTO> findPlannerById(@PathVariable Long id){
         PlannerResponseDTO planner = plannerService.findPlannerById(id);
 
-        log.debug(planner.toString());
         return ResponseEntity.ok(planner);
     }
 
