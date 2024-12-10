@@ -5,9 +5,12 @@ import org.example.planner.dto.PlannerRequestDTO;
 import org.example.planner.dto.PlannerResponseDTO;
 import org.example.planner.entity.Planner;
 import org.example.planner.repository.PlannerRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -31,5 +34,18 @@ public class PlannerService {
     public PlannerResponseDTO findPlannerById(Long id){
         PlannerResponseDTO responseDTO = new PlannerResponseDTO(plannerRepository.findPlannerById(id));
         return responseDTO;
+    }
+
+    public void deletePlanner(Long id, PlannerRequestDTO requestDTO) {
+        Planner planner = plannerRepository.findPlannerById(id);
+
+        if(planner==null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Does not exist id = " + id);
+        }
+        if(!planner.getPassword().equals(requestDTO.getPassword())||!planner.getId().equals(id)){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN,"Password not match. ");
+        }
+
+        plannerRepository.deletePlanner(id);
     }
 }

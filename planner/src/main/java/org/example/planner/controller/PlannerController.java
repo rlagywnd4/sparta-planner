@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.planner.dto.PlannerRequestDTO;
 import org.example.planner.dto.PlannerResponseDTO;
 import org.example.planner.service.PlannerService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,6 +42,13 @@ public class PlannerController {
         List<PlannerResponseDTO> planner = plannerService.findAllPlanner();
 
         return ResponseEntity.ok(planner);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HttpStatus> deletePlanner(@PathVariable Long id, @RequestBody PlannerRequestDTO requestDTO){
+        plannerService.deletePlanner(id, requestDTO);
+
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
 

@@ -52,10 +52,14 @@ public class PlannerRepository {
         return result.stream().findAny().orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Does not exist id = " + id));
     }
 
+    public void deletePlanner(Long id) {
+        jdbcTemplate.update("delete from planner where id= ?", id);
+    }
     private RowMapper<Planner> plannerRowMapper() {
         return new RowMapper<Planner>() {
             @Override
             public Planner mapRow(ResultSet rs, int rowNum) throws SQLException {
+                // date값이 null인 경우
                 LocalDate updateAt;
                 LocalDate createdAt;
                 if (rs.getDate("updated_at") == null) {
@@ -81,9 +85,6 @@ public class PlannerRepository {
         return new RowMapper<PlannerResponseDTO>() {
             @Override
             public PlannerResponseDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
-//                LocalDate createDate = rs.getDate("createdAt").toLocalDate();
-//                LocalDate modifyDate = rs.getDate("updatedAt").toLocalDate();
-
                 return new PlannerResponseDTO(
                         rs.getLong("id"),
                         rs.getString("todo"),
@@ -92,4 +93,5 @@ public class PlannerRepository {
             }
         };
     }
+
 }
