@@ -1,7 +1,6 @@
 package org.example.planner.repository;
 
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.example.planner.dto.PlannerResponseDTO;
 import org.example.planner.entity.Planner;
 import org.springframework.http.HttpStatus;
@@ -19,7 +18,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Slf4j
 @Repository
 @AllArgsConstructor
 public class PlannerRepository {
@@ -48,27 +46,24 @@ public class PlannerRepository {
 
     public Planner findPlannerById(Long id) {
         List<Planner> result = jdbcTemplate.query("select * from planner where id = ?", plannerRowMapper(), id);
-        log.info(result.toString());
+
         return result.stream().findAny().orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Does not exist id = " + id));
     }
 
     public void deletePlanner(Long id) {
         jdbcTemplate.update("delete from planner where id= ?", id);
     }
+
+    public int updatePlanner(Long id, String todo, String name) {
+        return jdbcTemplate.update("update planner set todo = ?, name = ? , updated_at = ? where id = ?", todo, name, LocalDate.now(), id);
+    }
+
     private RowMapper<Planner> plannerRowMapper() {
         return new RowMapper<Planner>() {
             @Override
             public Planner mapRow(ResultSet rs, int rowNum) throws SQLException {
-                // date값이 null인 경우
-                LocalDate updateAt;
-                LocalDate createdAt;
-                if (rs.getDate("updated_at") == null) {
-                    updateAt = LocalDate.now();
-                    createdAt = LocalDate.now();
-                } else {
-                    updateAt = rs.getDate("updated_at").toLocalDate();
-                    createdAt = rs.getDate("created_at").toLocalDate();
-                }
+                LocalDate updateAt = rs.getDate("updated_at").toLocalDate();
+                LocalDate createdAt = rs.getDate("created_at").toLocalDate();
                 return new Planner(
                         rs.getLong("id"),
                         rs.getString("todo"),

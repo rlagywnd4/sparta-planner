@@ -44,6 +44,13 @@ public class PlannerController {
         return ResponseEntity.ok(planner);
     }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<PlannerResponseDTO> updatePlanner(@PathVariable Long id, @RequestBody PlannerRequestDTO requestDTO){
+        PlannerResponseDTO responseDTO = plannerService.updatePlanner(id, requestDTO);
+
+        return ResponseEntity.ok(responseDTO);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deletePlanner(@PathVariable Long id, @RequestBody PlannerRequestDTO requestDTO){
         plannerService.deletePlanner(id, requestDTO);

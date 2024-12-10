@@ -48,4 +48,19 @@ public class PlannerService {
 
         plannerRepository.deletePlanner(id);
     }
+
+        public PlannerResponseDTO updatePlanner(Long id, PlannerRequestDTO requestDTO) {
+        Planner planner = plannerRepository.findPlannerById(id);
+        if(planner.getPassword().equals(requestDTO.getPassword())|| Objects.equals(planner.getId(), id)){
+            int updateRow = plannerRepository.updatePlanner(id,requestDTO.getTodo(),requestDTO.getName());
+            planner = plannerRepository.findPlannerById(id);
+            if(updateRow==0){
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND,"No data has been modified");
+            }
+        } else {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN,"user_id, password not matched");
+        }
+
+        return new PlannerResponseDTO(planner);
+    }
 }
