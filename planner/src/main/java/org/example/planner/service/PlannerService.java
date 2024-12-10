@@ -7,6 +7,8 @@ import org.example.planner.entity.Planner;
 import org.example.planner.repository.PlannerRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class PlannerService {
@@ -20,5 +22,14 @@ public class PlannerService {
                 .password(request.getPassword())
                 .build();
         return plannerRepository.save(planner);
+    }
+
+    public List<PlannerResponseDTO> findAllPlanner(){
+        return plannerRepository.findAllPlanner();
+    }
+
+    public PlannerResponseDTO findPlannerById(Long id){
+        PlannerResponseDTO responseDTO = new PlannerResponseDTO(plannerRepository.findPlannerById(id));
+        return responseDTO;
     }
 }

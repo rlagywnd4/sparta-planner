@@ -1,18 +1,19 @@
 package org.example.planner.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.planner.dto.PlannerRequestDTO;
 import org.example.planner.dto.PlannerResponseDTO;
 import org.example.planner.service.PlannerService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/planner")
 @RequiredArgsConstructor
+@Slf4j
 public class PlannerController {
 
     private final PlannerService plannerService;
@@ -23,5 +24,24 @@ public class PlannerController {
 
         return ResponseEntity.ok(planner);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PlannerResponseDTO> findPlannerById(@PathVariable Long id){
+        log.info("start find by id");
+        PlannerResponseDTO planner = plannerService.findPlannerById(id);
+
+        log.info("hihihihihi");
+        log.debug(planner.toString());
+        return ResponseEntity.ok(planner);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<PlannerResponseDTO>> findAllPlanner(){
+        log.info("start find all");
+        List<PlannerResponseDTO> planner = plannerService.findAllPlanner();
+
+        return ResponseEntity.ok(planner);
+    }
+
 
 }
